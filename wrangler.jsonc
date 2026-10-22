@@ -6,7 +6,7 @@
   "assets": { "directory": "./dist", "binding": "ASSETS", "not_found_handling": "single-page-application", "run_worker_first": ["/api/*"] },
   "r2_buckets": [{ "binding": "PDFS", "bucket_name": "akhil-notes-private" }],
   "vars": {
-    "SUPABASE_URL": "", "SUPABASE_ANON_KEY": ""
+    "SUPABASE_URL": "https://jizsazuhuhotibwekjoa.supabase.co", "SUPABASE_ANON_KEY": "sb_publishable_sJ8oSDAZjNQUn4j3fjqsEg_rIpz5Ps5"
   },
   "observability": { "enabled": true }
 }
