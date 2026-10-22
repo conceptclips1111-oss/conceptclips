@@ -44,7 +44,7 @@ The local site starts with four clearly labelled sample products, one-page demo 
 7. Log back in as the customer. **My purchases** now offers a PDF download.
 8. Try rejection and correction on another product. Reusing a transaction reference against another order is rejected.
 
-Admin **Notes** lets you create drafts, upload/replace private PDFs (up to 30 MB), edit price/overview/pages, and publish/unpublish. Replacing a PDF makes the latest version available to all customers with an approved purchase. Old object versions are retained; remove unused versions deliberately after checking references to manage storage.
+Admin **Notes -> Add notes** lets you enter details and select a private PDF (up to 30 MB) in the same form. Select **Published and available to buy** and **Save & publish notes** to upload and publish together, or **Save draft** to finish later. Failed uploads leave the saved draft in the editor for retry. You can also replace PDFs and edit or unpublish existing notes. Replacing a PDF makes the latest version available to all customers with an approved purchase. Old object versions are retained; remove unused versions deliberately after checking references to manage storage.
 
 Admin **Settings** controls the store name, UPI ID, payee name, optional support email and payment enable switch. The site generates the QR from those details. Existing orders retain their original amount and payment destination. In local mode, disabled payments allow demo orders; in production, disabled payments pause new purchases entirely.
 

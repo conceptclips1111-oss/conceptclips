@@ -9,3 +9,4 @@
 @media(max-width:600px){.hero h1{font-size:clamp(46px,14vw,60px)}.hero h1 br:nth-of-type(2){display:initial}}
 @media(max-width:360px){.container{padding-left:16px;padding-right:16px}.product-grid{gap:10px}.product-cover{height:190px;padding:15px 12px}.cover-title{font-size:24px}.product-info{padding:12px 10px}.product-info p{min-height:105px}.admin-tabs>a{font-size:9px;padding-left:7px;padding-right:7px}.form-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.note-fields{border:0;padding:0;margin:0;min-width:0}.note-fields input[type=file]{max-width:100%;width:100%}.note-fields:disabled{opacity:.7}#notes-pdf-help{overflow-wrap:anywhere}

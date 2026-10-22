@@ -1,12 +1,13 @@
 import { createApp } from './app';
 import { cloudServices, type CloudEnv } from './cloud-services';
+import { AppError } from './contracts';
 export default {
   async fetch(request: Request, env: CloudEnv): Promise<Response> {
     const url = new URL(request.url);
     let response: Response;
     try {
       response = url.pathname.startsWith('/api/') ? await createApp(cloudServices(env)).fetch(request) : await env.ASSETS.fetch(request);
-    } catch { response = Response.json({ error:'The store is not configured yet. Please contact the administrator.' }, { status:503 }); }
+    } catch (error) { response = Response.json({ error:error instanceof AppError ? error.message : 'The store is not configured yet. Please contact the administrator.' }, { status:503 }); }
     response = new Response(response.body, response);
     response.headers.set('X-Content-Type-Options','nosniff');
     response.headers.set('Referrer-Policy','same-origin');

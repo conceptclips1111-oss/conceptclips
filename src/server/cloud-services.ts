@@ -1,14 +1,15 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { AuthResult, Repository, Services } from './contracts';
 import { AppError } from './contracts';
+import { serverKey, supabaseTransport } from './supabase-transport';
 import type { Settings, User } from '../shared/types';
 
 export type CloudEnv = { SUPABASE_URL: string; SUPABASE_ANON_KEY: string; SUPABASE_SERVICE_ROLE_KEY: string; PDFS: R2Bucket; ASSETS: Fetcher };
 export function cloudServices(env: CloudEnv): Services {
   if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY || !env.SUPABASE_SERVICE_ROLE_KEY || !env.PDFS) throw new AppError(503, 'The store is not configured yet.');
-  const options = { auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false } };
-  const db = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, options);
-  const authClient = () => createClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY, options);
+  const options = { auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false }, global:{fetch:supabaseTransport()} };
+  const db = createClient(env.SUPABASE_URL.trim(), serverKey(env.SUPABASE_SERVICE_ROLE_KEY), options);
+  const authClient = () => createClient(env.SUPABASE_URL.trim(), env.SUPABASE_ANON_KEY.trim(), options);
   function check(error: any) {
     if (!error) return;
     if (error.code === '23505') throw new AppError(409, 'This transaction reference or order already exists. Please refresh and check.');
