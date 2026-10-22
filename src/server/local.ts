@@ -1,0 +1,14 @@
+import 'dotenv/config';
+import { serve } from '@hono/node-server';
+import { serveStatic } from '@hono/node-server/serve-static';
+import { resolve } from 'node:path';
+import { createApp } from './app';
+import { localServices } from './local-services';
+const dataDir = resolve(process.env.DATA_DIR || '.data');
+const services = localServices(dataDir);
+const app = createApp(services);
+app.get('*', serveStatic({ root:'./dist' }));
+app.get('*', serveStatic({ path:'./dist/index.html' }));
+serve({ fetch: app.fetch, port: Number(process.env.API_PORT || 8788), hostname: '127.0.0.1' });
+console.log(`Local API ready on http://127.0.0.1:${process.env.API_PORT || 8788}. SQLite and private PDFs: ${dataDir}`);
+console.log('Local demo mode. Configure real payments only after reviewing Admin > Settings.');

@@ -1,0 +1,44 @@
+{
+  "name": "akhil-notes",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n API,WEB -c cyan,green \"tsx watch src/server/local.ts\" \"vite --host 127.0.0.1\"",
+    "build": "tsc --noEmit && vite build --configLoader native",
+    "start": "node --import ./scripts/register-typescript.mjs src/server/local.ts",
+    "test": "node --import ./scripts/register-typescript.mjs --test --test-isolation=none tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:check": "npm run build && wrangler deploy --dry-run --outdir .deploy-check"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.0",
+    "@supabase/supabase-js": "^2.57.0",
+    "dotenv": "^17.2.0",
+    "hono": "^4.9.0",
+    "lucide-react": "^0.468.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.9.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261022.1",
+    "@electric-sql/pglite": "^0.5.11",
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.2.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.1.0",
+    "wrangler": "^4.33.0"
+  }
+}
