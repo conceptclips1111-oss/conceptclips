@@ -1,4 +1,4 @@
-# Akhil Notes: architecture, deployment and updates
+# Conceptclips1111: architecture, deployment and updates
 
 This guide records the actual first deployment and the issues we resolved. All terminal commands run in **Windows PowerShell on your computer**, not inside Supabase. Run only the SQL examples in **Supabase SQL Editor**.
 
@@ -507,6 +507,18 @@ Temporary `DB_QUERY`, `DB_AUTH`, `DB_PERMISSIONS`, `DB_SCHEMA`, `DB_SETTINGS`, `
 
 ## Source control and operations
 
+### Store branding and website address
+
+Change **Admin -> Settings -> Store name** to `Conceptclips1111` and save on the live website. Header/footer use this database value; the browser tab title follows it after deploying the current code. Local SQLite settings are separate, so update the local admin settings too if testing an existing local database. Code defaults apply to new local databases; the original production migration is historical and must not be rerun for branding.
+
+The initial HTML title and frontend fallback now use `Conceptclips1111`. Build/deploy these code changes normally. Internal package names, backend User-Agent, the existing Worker and private bucket can retain their original names without showing them as the store name.
+
+The current URL remains `https://akhil-notes.conceptclips.workers.dev/`. A workers.dev URL is `<worker-name>.<account-subdomain>.workers.dev`; a Worker named `conceptclips1111` under the current account subdomain would use `https://conceptclips1111.conceptclips.workers.dev/`. This is a proposed address, not an already deployed endpoint.
+
+To move URLs, first plan the Worker rename/new deployment and update the `name` in `wrangler.jsonc` consistently. Changing only that field and deploying can create a separate Worker: configure its server secret and confirm the existing R2 binding/Supabase values before sending users to it. Existing database records/PDFs can be reused. Users may need to log in again because cookies belong to the old hostname. Existing shared links need updating or a deliberate redirect. Do not rename/delete the PDF bucket or recreate Supabase for a branding change.
+
+Alternatively, attach a domain you own in the Worker's **Settings -> Domains & Routes -> Add -> Custom Domain**. This keeps the internal Worker name separate from the customer-facing URL; domain availability and registration/renewal cost are separate. See the official workers.dev and Custom Domains references below.
+
 Commit source, tests, migrations, package files/lockfile, public configuration, example environment files and documentation. Keep `.env`, `.dev.vars`, `.data/`, real PDFs, credentials, caches, `node_modules/`, build output, Wrangler state and test reports out of Git. A private repository is not a secret manager.
 
 Back up Postgres and original PDFs. Monitor Worker CPU/requests, R2 storage/operations and Supabase size/egress/auth usage. Free allowances/inactivity policies can change. Retained replaced PDFs can increase storage; remove unused objects deliberately after checking references. Add pagination before the current 10,000-order history limit matters.
@@ -520,4 +532,5 @@ This version has no automatic refunds, access-revocation UI, tax invoices, cart 
 - Supabase API keys: https://supabase.com/docs/guides/getting-started/api-keys
 - Wrangler: https://developers.cloudflare.com/workers/wrangler/
 - workers.dev: https://developers.cloudflare.com/workers/configuration/routing/workers-dev/
+- Custom Domains: https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
 - R2 setup/pricing: https://developers.cloudflare.com/r2/get-started/ and https://developers.cloudflare.com/r2/pricing/

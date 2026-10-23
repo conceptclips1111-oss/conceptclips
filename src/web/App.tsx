@@ -19,11 +19,12 @@ const subjectIcon = (subject: string, size = 22) => subject === 'Physics' ? <Ato
 
 export function App() {
   const [user, setUser] = useState<User | null>(null);
-  const [settings, setSettings] = useState<Settings>({ store_name: 'Akhil Notes', upi_id: '', payee_name: '', payments_enabled: false, support_email: '' });
+  const [settings, setSettings] = useState<Settings>({ store_name: 'Conceptclips1111', upi_id: '', payee_name: '', payments_enabled: false, support_email: '' });
   const [local, setLocal] = useState(false); const [ready, setReady] = useState(false); const [failure, setFailure] = useState(''); const [message, setMessage] = useState('');
   const refreshSession = async () => { const data = await api<{ user: User | null; local: boolean }>('/session'); setUser(data.user); setLocal(data.local); };
   const refreshSettings = async () => { const data = await api<Settings & { local: boolean }>('/settings'); setSettings(data); setLocal(data.local); };
   useEffect(() => { Promise.all([refreshSession(), refreshSettings()]).then(() => setReady(true)).catch(e => setFailure(errorMessage(e))); }, []);
+  useEffect(() => { document.title = `${settings.store_name} · A little clarity goes a long way.`; }, [settings.store_name]);
   useEffect(() => { if (message) { const t = setTimeout(() => setMessage(''), 4000); return () => clearTimeout(t); } }, [message]);
   if (failure) return <main className="container section"><ErrorBox>{failure}</ErrorBox><button onClick={() => location.reload()}>Retry connection</button></main>;
   if (!ready) return <Loading/>;

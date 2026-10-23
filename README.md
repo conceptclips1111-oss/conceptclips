@@ -1,4 +1,4 @@
-# Akhil Notes
+# Conceptclips1111
 
 Mobile-first PDF notes shop: customer accounts, catalogue, manual UPI checkout, transaction-reference submissions, admin review, and protected PDF downloads. One repository, one Cloudflare deployment. No OTP, screenshot upload, email delivery, or password recovery.
 

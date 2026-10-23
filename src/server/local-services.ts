@@ -8,7 +8,7 @@ import type { Order, OrderView, Product, Settings, Submission, User } from '../s
 
 const normalize = (row: any) => row ? { ...row, published: !!row.published, is_demo: !!row.is_demo } : null;
 const joined = `SELECT o.*, p.title AS product_title, p.subject, u.name AS customer_name, u.phone AS customer_phone, u.email AS customer_email FROM orders o JOIN products p ON p.id=o.product_id JOIN profiles u ON u.id=o.user_id`;
-const defaults: Settings = { store_name: 'Akhil Notes', upi_id: '', payee_name: '', payments_enabled: false, support_email: '' };
+const defaults: Settings = { store_name: 'Conceptclips1111', upi_id: '', payee_name: '', payments_enabled: false, support_email: '' };
 
 export function localServices(dataDir: string, options: { seed?: boolean; memory?: boolean } = {}): Services & { db: DatabaseSync } {
   mkdirSync(dataDir, { recursive: true });
@@ -107,7 +107,7 @@ export function localServices(dataDir: string, options: { seed?: boolean; memory
         const id = crypto.randomUUID(); const key = `${id}/sample.pdf`;
         const p: Product = { id, subject: subject as string, title: title as string, level: level as string, description: description as string, price: price as number, pages: pages as number, color: color as string, overview: overview as string, published: true, file_key: key, updated_at: new Date().toISOString() };
         db.prepare('INSERT INTO products VALUES(?,?,?,?,?,?,?,?,?,?,?,?)').run(p.id, p.title, p.subject, p.description, p.overview, p.price, p.pages, p.level, p.color, 1, key, p.updated_at);
-        const content = `BT /F1 22 Tf 60 740 Td (Akhil Notes - DEMO PDF) Tj 0 -42 Td /F1 14 Tf (${subject} sample download) Tj 0 -30 Td (Local testing only. Upload your real notes in the admin portal.) Tj ET`;
+        const content = `BT /F1 22 Tf 60 740 Td (Conceptclips1111 - DEMO PDF) Tj 0 -42 Td /F1 14 Tf (${subject} sample download) Tj 0 -30 Td (Local testing only. Upload your real notes in the admin portal.) Tj ET`;
         let pdf = '%PDF-1.4\n'; const offsets = [0]; const objects = ['<< /Type /Catalog /Pages 2 0 R >>','<< /Type /Pages /Kids [3 0 R] /Count 1 >>','<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>','<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',`<< /Length ${content.length} >>\nstream\n${content}\nendstream`];
         objects.forEach((obj, i) => { offsets.push(pdf.length); pdf += `${i+1} 0 obj\n${obj}\nendobj\n`; }); const xref = pdf.length; pdf += `xref\n0 6\n0000000000 65535 f \n${offsets.slice(1).map(n => `${String(n).padStart(10,'0')} 00000 n \n`).join('')}trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
         const path = filePath(key); mkdirSync(dirname(path), { recursive: true }); writeFileSync(path, pdf);
